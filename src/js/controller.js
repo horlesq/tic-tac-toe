@@ -108,29 +108,31 @@ class GameController {
     }
 }
 
-//(function () {
 const gameBoard = new GameBoard();
 const gameController = new GameController();
 
-gameBoard.initGameBoard();
+const controlTurn = function (row, column) {
+    // Convert row and column from string to number
+    const rowNum = parseInt(row);
+    const colNum = parseInt(column);
 
-// gameBoard.dropToken(0, 1, gameController._activePlayer);
-// gameController.switchPlayerTurn();
-// gameBoard.dropToken(0, 2, gameController._activePlayer);
-// gameController.switchPlayerTurn();
-// gameBoard.dropToken(2, 2, gameController._activePlayer);
-// gameController.switchPlayerTurn();
-// gameBoard.dropToken(1, 1, gameController._activePlayer);
-// gameController.switchPlayerTurn();
-// gameBoard.dropToken(1, 0, gameController._activePlayer);
-// gameController.switchPlayerTurn();
-// gameBoard.dropToken(2, 0, gameController._activePlayer);
+    // Update the game board
+    gameBoard.dropToken(rowNum, colNum, gameController.getActivePlayer());
 
-gameBoard.printBoard();
-//})();
+    // Switch player turn after updating the board
+    gameController.switchPlayerTurn();
 
+    // Update the token in the view to reflect the active player
+    view.setToken(gameController.getActivePlayer().token);
+};
+
+// Initialization
 const init = function () {
+    gameBoard.initGameBoard();
+
     view.addHandlerStart();
+    view.addHandlerHover();
+    view.addHandlerClick(controlTurn);
 };
 
 init();

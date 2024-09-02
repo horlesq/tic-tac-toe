@@ -2,7 +2,6 @@ body {
     font-family: "Kanit", sans-serif;
     font-weight: 400;
     line-height: 1.6;
-    color: #1b4101;
     background-image: linear-gradient(to bottom, #373b44, #0000);
     background-size: cover;
     background-repeat: no-repeat;
@@ -93,14 +92,40 @@ body {
 }
 
 .cell {
+    display: flex;
+    justify-content: center;
     box-sizing: border-box;
+    align-items: center;
     width: 100px;
     height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 2em;
     cursor: pointer;
+    aspect-ratio: 1; /* Ensures cells remain square */
+    position: relative; /* Needed to position hover content */
+    font-size: 5rem;
+}
+
+.cell::after {
+    content: attr(data-hover); /* Display X or O based on data attribute */
+    color: #000;
+    font-size: 5rem;
+    opacity: 0.2; /* Low opacity for hover effect */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none; /* Prevent hover effect from interfering with clicks */
+}
+
+.cell:not(.filled):hover::after {
+    content: attr(data-hover); /* Display X or O on hover */
+    opacity: 0.4; /* Low opacity for hover effect */
+}
+
+/* Filled cells styling */
+.filled {
+    color: #333; /* Customize the color of filled cells */
+    pointer-events: none; /* Prevent further clicks */
 }
 
 /* To hide the borders that shouldn't be there (only show middle grid lines) */
