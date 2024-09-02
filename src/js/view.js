@@ -10,32 +10,62 @@ class View {
     _startGame() {
         // Hide start button
         this._startBtn.classList.add("hidden");
+        // Empty cells
+        this._cells.forEach((cell) => {
+            cell.textContent = "";
+            cell.classList.remove("filled");
+        });
         // Show game grid
         this._grid.classList.remove("hidden");
         // Show game score
         this._score.classList.remove("hidden");
+        //
+        this._switchTurn();
     }
 
-    _player1Turn() {
-        this._scorePlayer1.style.color = "#2dc200";
-        this._scorePlayer2.style.color = "#d32e2e";
+    _switchTurn() {
+        if (this._token == "X") {
+            this._scorePlayer1.style.color = "#2dc200";
+            this._scorePlayer2.style.color = "#d32e2e";
+        }
+        if (this._token == "0") {
+            this._scorePlayer2.style.color = "#2dc200";
+            this._scorePlayer1.style.color = "#d32e2e";
+        }
     }
 
-    _player2Turn() {
-        this._scorePlayer2.style.color = "#2dc200";
-        this._scorePlayer1.style.color = "#d32e2e";
+    setScore(scores) {
+        this._scorePlayer1.textContent = `Player One: ${scores[0]}`;
+        this._scorePlayer2.textContent = `Player Two: ${scores[1]}`;
     }
 
     setToken(token) {
         this._token = token;
+        this._switchTurn();
+    }
+
+    alertWin(player) {
+        setTimeout(() => {
+            // Alert message
+            alert(`${player.name} WON! 🥳`);
+            // New turn
+            this._startGame();
+        }, 100);
+    }
+
+    alertDraw() {
+        setTimeout(() => {
+            // Alert message
+            alert(`It's a DRAW! 😕`);
+            // New turn
+            this._startGame();
+        }, 100);
     }
 
     addHandlerStart() {
         this._startBtn.addEventListener("click", (event) => {
             event.preventDefault();
             this._startGame();
-
-            this._player1Turn();
         });
     }
 
@@ -62,8 +92,6 @@ class View {
                 // Place the current player's token in the cell
                 cell.textContent = this._token;
                 cell.classList.add("filled");
-
-                this._token === "X" ? this._player2Turn() : this._player1Turn();
 
                 handler(row, column);
             });

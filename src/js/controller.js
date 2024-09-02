@@ -26,8 +26,7 @@ class GameBoard {
             ? (this._board[row][column] = player.token)
             : console.log("INVALID MOVE");
 
-        if (this.checkWin() === true) console.log(`${player.name} WON`);
-        if (this.checkWin() === false) console.log(`DRAW`);
+        return this.checkWin();
     }
 
     getToken(row, column) {
@@ -90,8 +89,8 @@ class GameBoard {
 
 class GameController {
     _players = [
-        { name: "Player One", token: "X" },
-        { name: "Player Two", token: "0" },
+        { name: "Player One", token: "X", score: 0 },
+        { name: "Player Two", token: "0", score: 0 },
     ];
 
     _activePlayer = this._players[0];
@@ -106,6 +105,14 @@ class GameController {
     getActivePlayer() {
         return this._activePlayer;
     }
+
+    markScore() {
+        this._activePlayer.score++;
+    }
+
+    getScore() {
+        return [this._players[0].score, this._players[1].score];
+    }
 }
 
 const gameBoard = new GameBoard();
@@ -117,13 +124,34 @@ const controlTurn = function (row, column) {
     const colNum = parseInt(column);
 
     // Update the game board
-    gameBoard.dropToken(rowNum, colNum, gameController.getActivePlayer());
+    const gameResult = gameBoard.dropToken(
+        rowNum,
+        colNum,
+        gameController.getActivePlayer()
+    );
 
-    // Switch player turn after updating the board
-    gameController.switchPlayerTurn();
+    if (gameResult === true) {
+        // Active player WON
+        gameController.markScore();
+        // Alert winning
+        view.alertWin(gameController.getActivePlayer());
+        // Set new score view
+        view.setScore(gameController.getScore());
+        // Reset game
+        gameBoard.initGameBoard();
+    } else if (gameResult === false) {
+        // DRAW
+        view.alertDraw();
+        // Reset game
+        gameBoard.initGameBoard();
+    } else {
+        // Game continue
+        // Switch player turn after updating the board
+        gameController.switchPlayerTurn();
 
-    // Update the token in the view to reflect the active player
-    view.setToken(gameController.getActivePlayer().token);
+        // Update the token in the view to reflect the active player
+        view.setToken(gameController.getActivePlayer().token);
+    }
 };
 
 // Initialization
