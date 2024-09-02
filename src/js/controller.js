@@ -1,8 +1,4 @@
-"use strict";
-
-// gameboard array in gameBoard object
-// player objects
-// game flow object
+import view from "./view.js";
 
 class GameBoard {
     _rows = 3;
@@ -132,3 +128,9 @@ gameBoard.initGameBoard();
 
 gameBoard.printBoard();
 //})();
+
+const init = function () {
+    view.addHandlerStart();
+};
+
+init();

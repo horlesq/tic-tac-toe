@@ -14,6 +14,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-bottom: 5rem;
 
     h1 {
         font-size: 3em;
@@ -34,11 +35,11 @@ body {
 
 /* START GAME BUTTON */
 .button-container {
+    padding-top: 6rem;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%; /* Ensure the container takes full width */
-    padding-top: 5rem;
 }
 
 .button-start {
@@ -88,8 +89,6 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
-    width: 60rem; /* The grid will take up 80% of the viewport's smaller dimension */
-    height: 80rem; /* Ensuring the grid remains a square */
     gap: 0; /* No gap, we're using borders to create the grid lines */
 }
 
@@ -141,6 +140,23 @@ body {
 .cell:nth-child(6),
 .cell:nth-child(9) {
     border-left: 5px solid #333;
+}
+
+/* Player score styling */
+.score-container {
+    position: relative; /* Positioned relative to the container */
+    width: 98%; /* Ensures it spans the container width */
+    bottom: 0; /* Aligns container to the bottom */
+    display: flex;
+    justify-content: space-between; /* Positions scores to the left and right */
+    padding: 10px;
+    padding-top: 13rem;
+}
+
+.player1-score,
+.player2-score {
+    font-size: 2rem;
+    color: #333;
 }
 
 .hidden {
