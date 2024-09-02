@@ -1,123 +1,11 @@
 import view from "./view.js";
+import { gameBoard, gameController } from "./model.js";
 
-class GameBoard {
-    _rows = 3;
-    _columns = 3;
-    _board = [];
-
-    initGameBoard() {
-        for (let i = 0; i < this._rows; i++) {
-            this._board[i] = [];
-            for (let j = 0; j < this._columns; j++) {
-                this._board[i].push("");
-            }
-        }
-    }
-
-    printBoard() {
-        const boardWithCellValues = this._board.map((row) =>
-            row.map((cell) => cell)
-        );
-        console.log(boardWithCellValues);
-    }
-
-    dropToken(row, column, player) {
-        this.getToken(row, column) === ""
-            ? (this._board[row][column] = player.token)
-            : console.log("INVALID MOVE");
-
-        return this.checkWin();
-    }
-
-    getToken(row, column) {
-        return this._board[row][column];
-    }
-
-    // Return TRUE if active player WON
-    // Return FALSE if draw
-    checkWin() {
-        const board = this._board;
-
-        // Check rows and columns for a win
-        for (let i = 0; i < this._rows; i++) {
-            // Check row i
-            if (
-                board[i][0] !== "" &&
-                board[i][0] === board[i][1] &&
-                board[i][1] === board[i][2]
-            ) {
-                return true;
-            }
-            // Check column i
-            if (
-                board[0][i] !== "" &&
-                board[0][i] === board[1][i] &&
-                board[1][i] === board[2][i]
-            ) {
-                return true;
-            }
-        }
-
-        // Check diagonals for a win
-        if (
-            board[0][0] !== "" &&
-            board[0][0] === board[1][1] &&
-            board[1][1] === board[2][2]
-        ) {
-            return true;
-        }
-        if (
-            board[0][2] !== "" &&
-            board[0][2] === board[1][1] &&
-            board[1][1] === board[2][0]
-        ) {
-            return true;
-        }
-
-        // Check for draw (if there are no empty cells left)
-        for (let i = 0; i < this._rows; i++) {
-            for (let j = 0; j < this._columns; j++) {
-                if (board[i][j] === "") {
-                    return; // Return undefined if the game is still ongoing
-                }
-            }
-        }
-
-        return false; // Return false if it's a draw
-    }
-}
-
-class GameController {
-    _players = [
-        { name: "Player One", token: "X", score: 0 },
-        { name: "Player Two", token: "0", score: 0 },
-    ];
-
-    _activePlayer = this._players[0];
-
-    switchPlayerTurn = () => {
-        this._activePlayer =
-            this._activePlayer === this._players[0]
-                ? this._players[1]
-                : this._players[0];
-    };
-
-    getActivePlayer() {
-        return this._activePlayer;
-    }
-
-    markScore() {
-        this._activePlayer.score++;
-    }
-
-    getScore() {
-        return [this._players[0].score, this._players[1].score];
-    }
-}
-
-const gameBoard = new GameBoard();
-const gameController = new GameController();
-
+/**
+ * Controls the game turn by processing the player's move and updating the game state.
+ * @param {string} row - The row index as a string.
+ * @param {string} column - The column index as a string.
+ */
 const controlTurn = function (row, column) {
     // Convert row and column from string to number
     const rowNum = parseInt(row);
@@ -145,19 +33,19 @@ const controlTurn = function (row, column) {
         // Reset game
         gameBoard.initGameBoard();
     } else {
-        // Game continue
+        // Game continues
         // Switch player turn after updating the board
         gameController.switchPlayerTurn();
-
         // Update the token in the view to reflect the active player
         view.setToken(gameController.getActivePlayer().token);
     }
 };
 
-// Initialization
+/**
+ * Initializes the game by setting up the game board and attaching event handlers.
+ */
 const init = function () {
     gameBoard.initGameBoard();
-
     view.addHandlerStart();
     view.addHandlerHover();
     view.addHandlerClick(controlTurn);
