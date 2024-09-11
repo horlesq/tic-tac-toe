@@ -11,6 +11,7 @@ A fun and interactive Tic-Tac-Toe game. Challenge a friend and see who can win i
 - [Usage](#usage)
 - [Technologies](#technologies)
 - [Installation](#installation)
+- [License](#license)
 - [Contact](#contact)
 
 ## Features
@@ -50,6 +51,9 @@ git clone https://github.com/horlesq/tic-tac-toe.git
 cd tic-tac-toe
 ```
 3. **Open index.html in your web browser:**: Simply double-click the index.html file or use a live server in your code editor.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Contact
 
