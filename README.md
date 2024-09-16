@@ -1,6 +1,6 @@
 # Tic-Tac-Toe
 
-A fun and interactive Tic-Tac-Toe game. Challenge a friend and see who can win in this classic game of Xs and Os!
+Tic-Tac-Toe is a web-based game application that allows two players to compete in the classic game of Xs and Os.
 
 ![tictactoe](https://github.com/user-attachments/assets/9195b180-2093-4a97-b125-bb1c5be615f0)
 
